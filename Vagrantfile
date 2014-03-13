@@ -12,20 +12,26 @@ Vagrant.configure("2") do |config|
 
   # Forward Oracle port
   config.vm.network :forwarded_port, guest: 1521, host: 1521
+  config.vm.network :forwarded_port, guest: 5900, host: 5900
+  
+  config.vm.synced_folder "shared", "/shared"
 
   # Provider-specific configuration so you can fine-tune various backing
   # providers for Vagrant. These expose provider-specific options.
   config.vm.provider :virtualbox do |vb|
     # Use VBoxManage to customize the VM
+	vb.gui = true
     vb.customize ["modifyvm", :id,
                   "--name", "oracle",
-                  # Oracle claims to need 512MB of memory available minimum
-                  "--memory", "512",
+                  "--memory", "1024",
+				  "--vram", "64",
+				  "--accelerate3d", "on",
                   # Enable DNS behind NAT
                   "--natdnshostresolver1", "on"]
   end
 
-  config.vm.provision :shell, :inline => "echo \"America/New_York\" | sudo tee /etc/timezone && dpkg-reconfigure --frontend noninteractive tzdata"
+  config.vm.provision :shell, :inline => "echo \"Europe/Berlin\" | sudo tee /etc/timezone && dpkg-reconfigure --frontend noninteractive tzdata"
+  config.vm.provision :shell, :inline => "sudo update-locale LANG=de_DE.UTF-8"
 
   config.vbguest.auto_update = false
 

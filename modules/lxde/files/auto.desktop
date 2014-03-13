@@ -1,0 +1,3 @@
+[Desktop Entry]
+Name=AutostartSkript
+Exec=lxterminal --command ".config/autostart/autostart.sh"

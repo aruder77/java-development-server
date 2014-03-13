@@ -1,11 +1,13 @@
-# Oracle XE 11g on Ubuntu 12.04 using Vagrant
+# Java-development support-server on Ubuntu 12.04 using Vagrant
 
-This project enables you to install Oracle 11g XE in a virtual machine running Ubuntu 12.04, using
-[Vagrant] and [Puppet].
+This project enables you to set up a support-server vm for Java development projects running Ubuntu 12.04, using
+[Vagrant] and [Puppet]. 
+
+It provides an Oracle 11g XE installation, a glassfish server, an LXDE desktop, an Oracle Java SDK, Apache Maven and more.
 
 ## Acknowledgements
 
-This project was created based on the information in
+This project was created based the GitHub repo [vagrant-ubuntu-oracle-xe] by Hilverd Reker which is itself based on the information in
 [Installing Oracle 11g R2 Express Edition on Ubuntu 64-bit] by Manish Raj, and the GitHub repository
 [vagrant-oracle-xe] by Stefan Glase. The former explains how to install Oracle XE 11g on Ubuntu
 12.04, without explicitly providing a Vagrant or provisioner configuration. The latter has the same
@@ -27,22 +29,46 @@ contributions.
 
 * Check out this project:
 
-        git clone https://github.com/hilverd/vagrant-ubuntu-oracle-xe.git
+        git clone https://github.com/aruder77/java-development-server.git
 
 * Install [vbguest]:
 
         vagrant plugin install vagrant-vbguest
+
+* Install [vagrant-proxyconf]
+
+        vagrant plugin install vagrant-proxyconf 
 
 * Download [Oracle Database 11g Express Edition] for Linux x64. Place the file
   `oracle-xe-11.2.0-1.0.x86_64.rpm.zip` in the directory `modules/oracle/files` of this
   project. (Alternatively, you could keep the zip file in some other location and make a hard link
   to it from `modules/oracle/files`.)
 
+* Download [Oracle SDK for Java] for Linux x64. Place the file
+  `jdk-7u51-linux-x64.gz` in the directory `modules/jdk/files` of this
+  project. 
+  
+* Download [Oracle Glassfish Server]. Place the file
+  `ogs-3.1.2.2.zip` in the directory `modules/glassfish/files` of this
+  project. 
+
+* Download [Apache Maven]. Place the file
+  `apache-maven-3.0.5-bin.tar.gz` in the directory `modules/maven/files` of this
+  project. 
+
+* If you're behind a proxy-server, set the environment variables HTTP_PROXY and HTTPS_PROXY accordingly.
+
 * Run `vagrant up` from the base directory of this project. This should take a few minutes. Please
   note that building the VM involves downloading an Ubuntu 12.04
   [base box](http://docs.vagrantup.com/v2/boxes.html) which is 323MB in size.
 
 ## Connecting
+
+### Login
+
+You should be automatically logged in as user/password `vagrant`/`vagrant`.
+
+### Oracle
 
 You should now be able to
 [connect](http://www.oracle.com/technetwork/developer-tools/sql-developer/downloads/index.html) to
@@ -65,6 +91,10 @@ You might need to add an entry to your `tnsnames.ora` file first:
           (SERVICE_NAME = XE)
         )
       )
+
+### Glassfish
+
+Glassfish is installed in `/opt/glassfish3`. Is is not automatically started nor is a domain configured. The tool `asadmin` is on the path for user `vagrant`.
 
 ## Troubleshooting
 
@@ -92,6 +122,14 @@ and restart the database.
 [Oracle Database 11g EE Documentation]: http://docs.oracle.com/cd/E17781_01/index.htm
 
 [Installing Oracle 11g R2 Express Edition on Ubuntu 64-bit]: http://meandmyubuntulinux.blogspot.co.uk/2012/05/installing-oracle-11g-r2-express.html
+
+[Oracle SDK for Java]: http://www.oracle.com/technetwork/java/javase/downloads/index.html 
+
+[Oracle Glassfish Server]: http://www.oracle.com/technetwork/java/javaee/downloads/index.html
+
+[Apache Maven]: http://maven.apache.org/download.cgi
+
+[vagrant-ubuntu-oracle-xe]: https://github.com/hilverd/vagrant-ubuntu-oracle-xe
 
 [vagrant-oracle-xe]: https://github.com/codescape/vagrant-oracle-xe
 
