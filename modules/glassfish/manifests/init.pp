@@ -1,15 +1,15 @@
 class glassfish::glassfish {
-
-  file {
-    "/opt/ogs-3.1.2.2.zip":
-      source => "puppet:///modules/glassfish/ogs-3.1.2.2.zip";
-  }
+  require oracle::server
   
   exec {
+	"downloadGlassfish":
+		cwd		=> "/opt",
+		command => "/usr/bin/wget -q --no-proxy --user=bne3_dev --password=dev4bne3 http://libne3ci01.bmwgroup.net:11000/nexus/content/repositories/bne3_thirdparty/com/oracle/glassfish/3.1.2.8/glassfish-3.1.2.8-bin.zip -O /opt/glassfish.zip",
+		creates	=> "/opt/glassfish.zip";	
 	"unzipGlassfish":
 		cwd 	=> "/opt",
-		command => "/usr/bin/unzip ogs-3.1.2.2.zip",
-		require => [FILE["/opt/ogs-3.1.2.2.zip"],PACKAGE["unzip"]];
+		command => "/usr/bin/unzip glassfish.zip",
+		require => [FILE["/opt/glassfish.zip"],PACKAGE["unzip"]];
   }
   
    user {
@@ -29,6 +29,8 @@ class glassfish::glassfish {
   }
 
   file {
+	"/opt/glassfish.zip":
+		require => EXEC["downloadGlassfish"];
 	"/opt/glassfish3":
 		ensure 	=> directory,
 		owner 	=> "glassfish",

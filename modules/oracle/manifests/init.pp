@@ -108,8 +108,8 @@ class oracle::swap {
 
 class oracle::xe {
   file {
-    "/home/vagrant/oracle-xe-11.2.0-1.0.x86_64.rpm.zip":
-      source => "puppet:///modules/oracle/oracle-xe-11.2.0-1.0.x86_64.rpm.zip";
+	"/home/vagrant/oracle-xe.rpm.zip":
+	  require	=> EXEC["downloadOracle"];
     "/tmp/oracle-env.sh":
       source => "puppet:///modules/oracle/oracle-env.sh";
     "/tmp/xe.rsp.orig":
@@ -124,6 +124,10 @@ class oracle::xe {
   }
 
   exec {
+	"downloadOracle":
+		cwd		=> "/tmp",
+		command => "/usr/bin/wget -q --no-proxy --user=bne3_dev --password=dev4bne3 http://libne3ci01.bmwgroup.net:11000/nexus/content/repositories/bne3_thirdparty/com/oracle/oracle-xe/11.2.0-1.0/oracle-xe-11.2.0-1.0-x86_64.zip -O /home/vagrant/oracle-xe.rpm.zip",
+		creates	=> "/home/vagrant/oracle-xe.rpm.zip";
     "dos2unix oracle-env.sh":
       command => "/usr/bin/dos2unix -n /tmp/oracle-env.sh /etc/profile.d/oracle-env.sh",
       creates => "/etc/profile.d/oracle-env.sh",
@@ -136,8 +140,8 @@ class oracle::xe {
 
   exec {
     "unzip xe":
-      command => "/usr/bin/unzip -o oracle-xe-11.2.0-1.0.x86_64.rpm.zip",
-      require => [Package["unzip"], File["/home/vagrant/oracle-xe-11.2.0-1.0.x86_64.rpm.zip"]],
+      command => "/usr/bin/unzip -o oracle-xe.rpm.zip",
+      require => [Package["unzip"], File["/home/vagrant/oracle-xe.rpm.zip"]],
       cwd => "/home/vagrant",
       user => root,
       creates => "/home/vagrant/oracle-xe-11.2.0-1.0.x86_64.rpm",
@@ -181,6 +185,7 @@ class oracle::xe {
   service {
     "oracle-xe":
       ensure => "running",
+	  enable => true,
       require => [Package["oracle-xe"],
                   Exec["configure xe"],
                   Exec["dos2unix chkconfig"],
