@@ -81,6 +81,11 @@ class smoketest::smoketest {
 	"/opt/glassfish/password.txt":
 	  require => EXEC["unzipGlassfish"],
 	  source => "puppet:///modules/smoketest/password.txt";
+	"/media/sf_":
+		ensure => directory,
+		owner  => root,
+		group  => vboxsf,
+		mode   => 0775;
 	"/shared":
 		ensure => link,
 		target => "/media/sf_/sharedFolder";
