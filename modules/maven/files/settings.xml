@@ -1,55 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <settings>
 
-	<mirrors>
-		<mirror>
-			<id>proj-nexus</id>
-			<mirrorOf>*</mirrorOf>
-			<url>http://libne3ci01.bmwgroup.net:11000/nexus/content/groups/bne3_repositories
-			</url>
-		</mirror>
-	</mirrors>
-
-	<servers>
-		<server>
-			<id>proj-nexus</id>
-			<username>bne3_dev</username>
-			<password>{wFfTuzm6T8EHcktBbBX327iBnEcl1fbbXeZyPQaVFcc=}</password>
-		</server>
-	</servers>
-
-	<profiles>
-		<profile>
-			<id>build.env.corporate</id>
-			<activation>
-				<activeByDefault>false</activeByDefault>
-			</activation>
-			<properties>
-				<repository.proj-releases.url>http://libne3ci01.bmwgroup.net:11000/nexus/content/repositories/bne3_releases
-				</repository.proj-releases.url>
-				<repository.proj-snapshots.url>http://libne3ci01.bmwgroup.net:11000/nexus/content/repositories/bne3_snapshots
-				</repository.proj-snapshots.url>
-			</properties>
-			<repositories>
-				<repository>
-					<id>proj-nexus.public</id>
-					<name>Nexus Managed Public Repository</name>
-					<url>http://libne3ci01.bmwgroup.net:11000/nexus/content/groups/bne3_repositories
-					</url>
-					<releases>
-						<enabled>true</enabled>
-					</releases>
-					<snapshots>
-						<enabled>true</enabled>
-						<updatePolicy>always</updatePolicy>
-					</snapshots>
-				</repository>
-			</repositories>
-		</profile>
-	</profiles>
-
-	<activeProfiles>
-		<activeProfile>build.env.corporate</activeProfile>
-	</activeProfiles>
 
 </settings>

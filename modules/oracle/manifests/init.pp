@@ -151,7 +151,7 @@ class oracle::xe {
   exec {
 	"downloadOracle":
 		cwd		=> "/tmp",
-		command => "/usr/bin/wget -q --no-proxy --user=bne3_dev --password=dev4bne3 http://libne3ci01.bmwgroup.net:11000/nexus/content/repositories/bne3_thirdparty/com/oracle/oracle-xe/11.2.0-1.0/oracle-xe-11.2.0-1.0-x86_64.zip -O /home/vagrant/oracle-xe.rpm.zip",
+		command => "/usr/bin/wget -q --no-proxy --user=bne3_dev --password=dev4bne3 http://XXX/oracle-xe-11.2.0-1.0-x86_64.zip -O /home/vagrant/oracle-xe.rpm.zip",
 		creates	=> "/home/vagrant/oracle-xe.rpm.zip";
     "dos2unix oracle-env.sh":
       command => "/usr/bin/dos2unix -n /tmp/oracle-env.sh /etc/profile.d/oracle-env.sh",

@@ -2,7 +2,7 @@ class jdk::jdk {
   exec {
 	"downloadJdk":
 		cwd		=> "/opt",
-		command => "/usr/bin/wget -q --no-proxy --user=bne3_dev --password=dev4bne3 http://libne3ci01.bmwgroup.net:11000/nexus/content/repositories/bne3_thirdparty/com/oracle/java/jdk/jdk-linux/1.7.0.55/jdk-linux-1.7.0.55-x64.zip -O /opt/jdk.zip",
+		command => "/usr/bin/wget -q --no-proxy --user=bne3_dev --password=dev4bne3 http://XXX/jdk-linux-1.7.0.55-x64.zip -O /opt/jdk.zip",
 		creates	=> "/opt/jdk.zip";
   
 	"unzipJdk":

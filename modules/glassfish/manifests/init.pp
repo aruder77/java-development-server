@@ -4,7 +4,7 @@ class glassfish::glassfish {
   exec {
 	"downloadGlassfish":
 		cwd		=> "/opt",
-		command => "/usr/bin/wget -q --no-proxy --user=bne3_dev --password=dev4bne3 http://libne3ci01.bmwgroup.net:11000/nexus/content/repositories/bne3_thirdparty/com/oracle/glassfish/3.1.2.8/glassfish-3.1.2.8-bin.zip -O /opt/glassfish.zip",
+		command => "/usr/bin/wget -q --no-proxy --user=bne3_dev --password=dev4bne3 http://XXX/glassfish-3.1.2.8-bin.zip -O /opt/glassfish.zip",
 		creates	=> "/opt/glassfish.zip";	
 	"unzipGlassfish":
 		cwd 	=> "/opt",
