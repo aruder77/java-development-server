@@ -10,20 +10,23 @@ class maven::maven {
 		cwd 	=> "/opt",
 		command => "/bin/tar xzf apache-maven-3.0.5-bin.tar.gz",
 		require => FILE["/opt/apache-maven-3.0.5-bin.tar.gz"];
-	"addMavenToPath":
-		command	=> "/bin/echo 'PATH=\$PATH:/opt/apache-maven/bin' >> /home/vagrant/.profile",
-		require	=> USER["vagrant"];
   }
   
   file {
 	"/opt/apache-maven-3.0.5":
 		ensure 	=> directory,
-		owner 	=> "vagrant",
-		group 	=> "vagrant",
-		require => [EXEC["untarMaven"],USER["vagrant"]]; 
-	"/opt/apache-maven":
+		owner 	=> "root",
+		group 	=> "root",
+		require => [EXEC["untarMaven"]]; 
+	"/opt/maven":
 		ensure => link,
 		target => "/opt/apache-maven-3.0.5",
 		require => EXEC["untarMaven"];  
+	"/opt/apache-maven-3.0.5/conf/settings.xml":
+		require	=> EXEC["untarMaven"],
+		source	=> "puppet:///modules/maven/settings.xml";
+	"/opt/apache-maven-3.0.5/conf/settings-security.xml":
+		require	=> EXEC["untarMaven"],
+		source	=> "puppet:///modules/maven/settings-security.xml";
   }
 }

@@ -1,4 +1,4 @@
-node oracle {
+node smoketest {
   include oracle::server
   include oracle::swap
   include oracle::xe
@@ -7,10 +7,18 @@ node oracle {
   include glassfish::glassfish
   include maven::maven
   include smoketest::smoketest
-
-  user { "vagrant":
-    groups => "dba",
-    # So that we let Oracle installer create the group
-    require => Service["oracle-xe"],
+  
+  package {
+    ["bc", "unzip", "rlwrap", "dos2unix"]:
+      ensure => installed;
   }
+
+  group { "users":
+    ensure	=> present;
+  }
+  
+  user { "vagrant":
+    groups => ["users"],
+    require => GROUP["users"];
+  }  
 }

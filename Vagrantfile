@@ -6,13 +6,14 @@ Vagrant.configure("2") do |config|
   # options are documented and commented below. For a complete reference,
   # please see the online documentation at vagrantup.com.
 
-  config.vm.box = "precise64"
-  config.vm.box_url = "http://files.vagrantup.com/precise64.box"
-  config.vm.hostname = "oracle"
+  config.vm.box = "quantal64"
+  config.vm.box_url = "https://github.com/downloads/roderik/VagrantQuantal64Box/quantal64.box"
+  config.vm.hostname = "smoketest"
 
   # Forward Oracle port
   config.vm.network :forwarded_port, guest: 1521, host: 1521
   config.vm.network :forwarded_port, guest: 5900, host: 5900
+  config.vm.network :forwarded_port, guest: 22,   host: 22
   
   config.vm.synced_folder "shared", "/shared"
 
@@ -22,7 +23,7 @@ Vagrant.configure("2") do |config|
     # Use VBoxManage to customize the VM
 	vb.gui = true
     vb.customize ["modifyvm", :id,
-                  "--name", "oracle",
+                  "--name", "smoketest",
                   "--memory", "1024",
 				  "--vram", "64",
 				  "--accelerate3d", "on",
@@ -31,7 +32,7 @@ Vagrant.configure("2") do |config|
   end
 
   config.vm.provision :shell, :inline => "echo \"Europe/Berlin\" | sudo tee /etc/timezone && dpkg-reconfigure --frontend noninteractive tzdata"
-  config.vm.provision :shell, :inline => "sudo update-locale LANG=de_DE.UTF-8"
+  # config.vm.provision :shell, :inline => "sudo update-locale LANG=de_DE.UTF-8"
 
   config.vbguest.auto_update = false
 

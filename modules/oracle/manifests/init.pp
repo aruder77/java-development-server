@@ -5,7 +5,7 @@ class oracle::server {
   }
 
   package {
-    ["alien", "bc", "libaio1", "unixodbc", "unzip", "rlwrap", "dos2unix"]:
+    ["alien", "libaio1", "unixodbc"]:
       ensure => installed;
   }
 
@@ -48,6 +48,16 @@ class oracle::server {
       ensure => present,
       groups => ["syslog", "adm"];
   }
+  
+  user { "oracle":
+    ensure	=> present,
+    groups 	=> ["users", "dba"],
+	password => '$6$XKass0/1$pqZNF0ksYRUkJff4TOdBRFYtkfBAJ7ml3.cMcm7gxrbm9Mn5eE7OWlA/e4wM41RDnWuZp/o5V4fS70K1/gTVN/',
+    managehome => true,
+	shell	 => "/bin/bash",
+    # So that we let Oracle installer create the group
+    require => [GROUP["users"], Service["oracle-xe"]];
+  }  
 
   group {
     "puppet":

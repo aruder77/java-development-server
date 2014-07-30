@@ -9,9 +9,6 @@ class jdk::jdk {
 		cwd 	=> "/opt",
 		command => "/bin/tar xzf jdk-7u51-linux-x64.gz",
 		require => FILE["/opt/jdk-7u51-linux-x64.gz"];
-	"addJavaToPath":
-		command	=> "/bin/echo 'PATH=\$PATH:/opt/jdk/bin' >> /home/vagrant/.profile",
-		require	=> USER["vagrant"];
   }
   
   file {
@@ -21,7 +18,7 @@ class jdk::jdk {
 		group 	=> "root",
 		require => EXEC["untarJdk"];
   
-	"/opt/jdk":
+	"/opt/java":
 		ensure => link,
 		target => "/opt/jdk1.7.0_51",
 		require => EXEC["untarJdk"];
