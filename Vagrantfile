@@ -11,7 +11,7 @@ Vagrant.configure("2") do |config|
   config.vm.hostname = "smoketest"
 
   # Forward Oracle port
-  config.vm.network :forwarded_port, guest: 1521, host: 1521
+  config.vm.network :forwarded_port, guest: 1521, host: 11521
   config.vm.network :forwarded_port, guest: 5900, host: 5900
   config.vm.network :forwarded_port, guest: 22,   host: 22
   
