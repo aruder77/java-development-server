@@ -106,6 +106,31 @@ class oracle::swap {
   }
 }
 
+class oracle::sqldeveloper {
+  file {
+	"/opt/sqldeveloper.zip":
+	  source => "puppet:///modules/oracle/sqldeveloper.zip";	
+	"/opt/sqldeveloper":
+	  owner		=> oracle,
+	  group		=> dba,
+	  mode		=> "g+rw",
+	  require	=> EXEC["unzipSqlDeveloper"];
+	"/opt/sqldeveloper/sqldeveloper.sh":
+	  mode		=> "+x",
+	  require	=> EXEC["unzipSqlDeveloper"];
+	"/opt/sqldeveloper/ide/bin/launcher.sh":
+	  mode		=> "+x",
+	  require	=> EXEC["unzipSqlDeveloper"];
+  }
+  
+  exec {
+    "unzipSqlDeveloper":
+	  cwd	=> "/opt",
+	  command => "/usr/bin/unzip /opt/sqldeveloper.zip",
+	  require => [File["/opt/sqldeveloper.zip"],Package["unzip"]];
+  }
+}
+
 class oracle::xe {
   file {
 	"/home/vagrant/oracle-xe.rpm.zip":

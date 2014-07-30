@@ -1,0 +1,34 @@
+<html>
+<head>
+	<meta charset="utf-8">	
+	<title>BNE Entwickler-VM</title>
+</head>
+<body>
+	<h1>BNE Entwickler-VM</h1>
+	<h2>Allgemeines</h2>
+	<ul>
+		<li>Der aktuelle Benutzer ist "smoketest" mit Passwort "smoketest"</li>
+		<li>Mit "sudo bash" und Eingabe des smoketest Passworts sind root-Operationen möglich</li>
+		<li>Euer Windows-Verzeichnis X:/shared ist nach /shared gemappt (Vollzugriff)</li>
+	</ul>
+	<h2>Oracle</h2>
+	<ul>
+		<li>Auf die lokale Oracle-DB kann mit folgenden Parametern zugegriffen werden:
+			<ul>
+				<li>Hostname: localhost</li>
+				<li>Port: 1521</li>
+				<li>SID: XE</li>
+				<li>Benutzer: DEV01 oder DEV02</li>
+				<li>Passwort: DEV01 oder DEV02</li>
+			</ul>
+		</li>
+		<li>sysdba-Zugriff auf die Oracle-Instanz als smoketest-User: sqlplus / as sysdba</li>
+		<li>Der Sqldeveloper kann über den Link auf dem Desktop gestartet werden.</li>
+	</ul>
+	<h2>VNC-Zugriff</h2>
+	<ul>
+		<li>Über VNC kann eine Remote-Desktopverbindung hergestellt werden. Dazu ist ein VNC-Viewer wie z.B. TightVNC erforderlich.</li>
+		<li>Der VNC-Port ist 5900 und wird von der VM exportiert.</li>
+	</ul>
+</body>
+</html>

@@ -1,14 +1,15 @@
 class smoketest::smoketest {
+  require oracle::sqldeveloper
 
   package {
-    ["libav-tools", "libavcodec-extra-53", "git"]:
+    ["libav-tools", "libavcodec-extra", "git"]:
       ensure => installed;
   }
   
   user { "smoketest":
       ensure => present,
 	  password => '$6$B75PJWzn$kC3w1dsQBDCxPn3ueGHerAk80L4F39FMBISmV/z7CeXy2xctxF1Q796VN0iHvVB39uQT85IBpyQz0rthE/tWq1',
-      groups => ["users", "glassfish"],
+      groups => ["users", "glassfish", "adm", "sudo", "dip", "plugdev", "lpadmin", "sambashare", "dba", "vboxsf"],
 	  shell	 => "/bin/bash",
 	  managehome => true,
 	  require => [Group["users"], GROUP["glassfish"]];
@@ -34,7 +35,7 @@ class smoketest::smoketest {
   
   exec {
 	"addGlassfishToSmoketestPath":
-		command	=> "/bin/echo 'PATH=\$PATH:/opt/glassfish3/glassfish/bin' >> /home/smoketest/.profile",
+		command	=> "/bin/echo 'PATH=\$PATH:/opt/glassfish/bin' >> /home/smoketest/.profile",
 		require	=> USER["smoketest"];
 	"addJavaToSmoketestPath":
 		command	=> "/bin/echo 'PATH=\$PATH:/opt/java/bin' >> /home/smoketest/.profile",
@@ -43,7 +44,7 @@ class smoketest::smoketest {
 		command	=> "/bin/echo 'PATH=\$PATH:/opt/maven/bin' >> /home/smoketest/.profile",
 		require	=> USER["smoketest"];
 	"addGlassfishToJenkinsPath":
-		command	=> "/bin/echo 'PATH=\$PATH:/opt/glassfish3/glassfish/bin' >> /home/jenkins/.profile",
+		command	=> "/bin/echo 'PATH=\$PATH:/opt/glassfish/bin' >> /home/jenkins/.profile",
 		require	=> USER["jenkins"];
 	"addJavaToJenkinsPath":
 		command	=> "/bin/echo 'PATH=\$PATH:/opt/java/bin' >> /home/jenkins/.profile",
@@ -51,6 +52,9 @@ class smoketest::smoketest {
 	"addMavenToJenkinsPath":
 		command	=> "/bin/echo 'PATH=\$PATH:/opt/maven/bin' >> /home/jenkins/.profile",
 		require	=> USER["jenkins"];
+	"enableLxdeShutdown":
+	    command	=> "/bin/echo 'session optional   pam_loginuid.so' >> /etc/pam.d/common-session",
+		require => PACKAGE["lxde"];
   }
 
   file {
@@ -74,9 +78,12 @@ class smoketest::smoketest {
 	  group   => 'users',
 	  mode    => '0644',
       source => "puppet:///modules/smoketest/m2Settings";
-	"/opt/glassfish3/glassfish/password.txt":
+	"/opt/glassfish/password.txt":
 	  require => EXEC["unzipGlassfish"],
 	  source => "puppet:///modules/smoketest/password.txt";
+	"/shared":
+		ensure => link,
+		target => "/media/sf_/sharedFolder";
   }
   
   	$autostart_dirs = [ "/home/smoketest/.config/", "/home/smoketest/.config/autostart/"]
@@ -112,6 +119,23 @@ class smoketest::smoketest {
 	  group => "root",
       source => "puppet:///modules/smoketest/lxdm.conf",
 	  require => PACKAGE["lxde"];
+	"/home/smoketest/Desktop":
+	  ensure	=> directory,
+	  owner		=> smoketest,
+	  group		=> users,
+  	  require 	=> USER["smoketest"];
+    "/home/smoketest/Desktop/README.html":
+	  mode => 0664,
+	  owner	=> smoketest,
+	  group => users,
+	  source => "puppet:///modules/smoketest/README.html",
+  	  require => File["/home/smoketest/Desktop"];
+    "/home/smoketest/Desktop/sqldeveloper.sh":
+	  mode => 07754,
+	  owner	=> smoketest,
+	  group => users,
+	  source => "puppet:///modules/smoketest/sqldeveloper.sh",
+  	  require => File["/home/smoketest/Desktop"];
   }
   
   exec {

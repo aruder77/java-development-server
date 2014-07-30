@@ -18,10 +18,13 @@ class jdk::jdk {
 		ensure 	=> directory,
 		owner 	=> "root",
 		group 	=> "root";
-  
 	"/opt/java":
 		ensure => link,
 		target => "/opt/jdk",
+		require => EXEC["unzipJdk"];
+	"/opt/jdk/bin":
+		recurse => true,
+		mode	=> "0775",
 		require => EXEC["unzipJdk"];
   }
 }

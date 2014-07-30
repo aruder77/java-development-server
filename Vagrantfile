@@ -6,16 +6,16 @@ Vagrant.configure("2") do |config|
   # options are documented and commented below. For a complete reference,
   # please see the online documentation at vagrantup.com.
 
-  config.vm.box = "quantal64"
-  config.vm.box_url = "https://github.com/downloads/roderik/VagrantQuantal64Box/quantal64.box"
+  config.vm.box = "trusty64"
+  config.vm.box_url = "https://oss-binaries.phusionpassenger.com/vagrant/boxes/latest/ubuntu-14.04-amd64-vbox.box"
   config.vm.hostname = "smoketest"
 
   # Forward Oracle port
-  config.vm.network :forwarded_port, guest: 1521, host: 11521
+  config.vm.network :forwarded_port, guest: 1521, host: 1521
   config.vm.network :forwarded_port, guest: 5900, host: 5900
   config.vm.network :forwarded_port, guest: 22,   host: 22
   
-  config.vm.synced_folder "shared", "/shared"
+  config.vm.synced_folder "X:/shared", "/sharedFolder"
 
   # Provider-specific configuration so you can fine-tune various backing
   # providers for Vagrant. These expose provider-specific options.
@@ -24,9 +24,12 @@ Vagrant.configure("2") do |config|
 	vb.gui = true
     vb.customize ["modifyvm", :id,
                   "--name", "smoketest",
+				  "--cpus", "1",
                   "--memory", "1024",
 				  "--vram", "64",
-				  "--accelerate3d", "on",
+				  "--accelerate3d", "off",
+				  "--clipboard", "bidirectional",
+				  "--draganddrop", "bidirectional",
                   # Enable DNS behind NAT
                   "--natdnshostresolver1", "on"]
   end

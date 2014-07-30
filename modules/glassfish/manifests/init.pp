@@ -31,16 +31,12 @@ class glassfish::glassfish {
   file {
 	"/opt/glassfish.zip":
 		require => EXEC["downloadGlassfish"];
-	"/opt/glassfish3":
+	"/opt/glassfish":
 		ensure 	=> directory,
 		owner 	=> "glassfish",
 		group 	=> "glassfish",
 		recurse => true,
 		mode	=> "g+rw",
 		require => [EXEC["unzipGlassfish"],USER["glassfish"]];  
-	"/opt/glassfish3/glassfish/domains/domain1/config":
-		ensure 	=> directory,
-		mode	=> "g+x",
-		require => FILE["/opt/glassfish3"];  
   }
 }
