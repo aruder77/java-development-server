@@ -6,9 +6,9 @@ Vagrant.configure("2") do |config|
   # options are documented and commented below. For a complete reference,
   # please see the online documentation at vagrantup.com.
 
-  config.vm.box = "trusty64"
-  config.vm.box_url = "https://oss-binaries.phusionpassenger.com/vagrant/boxes/latest/ubuntu-14.04-amd64-vbox.box"
-  config.vm.hostname = "smoketest"
+  config.vm.box = "trusty32"
+  config.vm.box_url = "http://cloud-images.ubuntu.com/vagrant/trusty/trusty-server-cloudimg-i386-juju-vagrant-disk1.box"
+  config.vm.hostname = "smoketest32"
 
   # Forward Oracle port
   config.vm.network :forwarded_port, guest: 1521, host: 1521
