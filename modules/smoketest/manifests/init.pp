@@ -78,6 +78,12 @@ class smoketest::smoketest {
 	  group   => 'users',
 	  mode    => '0644',
       source => "puppet:///modules/smoketest/m2Settings";
+	"/home/jenkins/.gitconfig":
+	  require	=> User["jenkins"],
+	  owner		=> 'jenkins',
+	  group		=> 'users',
+	  mode		=> '0644',
+	  source	=> "puppet:///modules/smoketest/.gitconfig";
 	"/opt/glassfish/password.txt":
 	  require => EXEC["unzipGlassfish"],
 	  source => "puppet:///modules/smoketest/password.txt";
