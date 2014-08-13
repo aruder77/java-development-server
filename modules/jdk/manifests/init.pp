@@ -26,5 +26,9 @@ class jdk::jdk {
 		recurse => true,
 		mode	=> "0775",
 		require => EXEC["unzipJdk"];
+	"/opt/jdk/jre/bin":
+		recurse => true,
+		mode	=> "0775",
+		require => EXEC["unzipJdk"];
   }
 }
